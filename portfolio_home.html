@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en" style="background:#080810">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>John Perez — Finance AI Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,400;1,700&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#080810;--bg2:#0d0e1a;--bg3:#121320;--bg4:#171826;
+  --b1:rgba(255,255,255,0.05);--b2:rgba(255,255,255,0.09);--b3:rgba(255,255,255,0.14);
+  --tx:#edeef8;--tx2:#8085a8;--tx3:#3d4060;
+  --gold:#e8c96d;--gold-d:rgba(232,201,109,0.08);--gold-b:rgba(232,201,109,0.2);
+  --p1:#7c6af7;--p1d:rgba(124,106,247,0.1);
+  --p2:#0fd4b0;--p2d:rgba(15,212,176,0.08);
+  --p3:#5b8dee;--p3d:rgba(91,141,238,0.08);
+  --mono:'JetBrains Mono',monospace;
+  --display:'Playfair Display',serif;
+  --body:'Outfit',sans-serif;
+}
+html{background:var(--bg);scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--tx);font-family:var(--body);font-size:15px;line-height:1.65;overflow-x:hidden;}
+
+/* ── TEXTURE ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.025) 1px,transparent 1px);
+  background-size:32px 32px;pointer-events:none;z-index:0;
+}
+
+/* ── AMBIENT GLOWS ── */
+.glow-tl{position:fixed;top:-200px;left:-100px;width:700px;height:600px;background:radial-gradient(ellipse,rgba(124,106,247,0.07) 0%,transparent 65%);pointer-events:none;z-index:0;}
+.glow-br{position:fixed;bottom:-150px;right:-100px;width:600px;height:500px;background:radial-gradient(ellipse,rgba(15,212,176,0.05) 0%,transparent 65%);pointer-events:none;z-index:0;}
+
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 32px;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:16px 0;border-bottom:1px solid var(--b1);
+  background:rgba(8,8,16,0.88);backdrop-filter:blur(14px);
+}
+.nav-inner{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;}
+.nav-name{font-family:var(--display);font-size:17px;font-style:italic;color:var(--tx);text-decoration:none;letter-spacing:-0.2px;}
+.nav-name em{color:var(--gold);font-style:normal;}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none;}
+.nav-links a{font-family:var(--mono);font-size:11px;color:var(--tx2);text-decoration:none;transition:color 0.2s;letter-spacing:0.04em;}
+.nav-links a:hover{color:var(--tx);}
+.nav-contact{background:var(--gold)!important;color:#080810!important;padding:7px 16px!important;border-radius:6px!important;font-weight:500!important;transition:background 0.2s!important;}
+.nav-contact:hover{background:#d4b558!important;}
+
+/* ── HERO ── */
+.hero{padding:152px 0 96px;position:relative;}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10px;color:var(--gold);
+  background:var(--gold-d);border:1px solid var(--gold-b);
+  padding:4px 12px;border-radius:20px;letter-spacing:0.08em;
+  text-transform:uppercase;margin-bottom:24px;
+  opacity:0;animation:fu 0.7s 0.1s forwards;
+}
+.tag-dot{width:4px;height:4px;border-radius:50%;background:var(--gold);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+.hero-name{
+  font-family:var(--display);
+  font-size:clamp(52px,8vw,96px);
+  font-weight:800;
+  line-height:0.92;
+  letter-spacing:-3px;
+  color:var(--tx);
+  margin-bottom:8px;
+  opacity:0;animation:fu 0.7s 0.2s forwards;
+}
+
+.hero-role{
+  font-family:var(--display);
+  font-size:clamp(24px,4vw,44px);
+  font-weight:400;
+  font-style:italic;
+  color:var(--tx2);
+  letter-spacing:-0.5px;
+  margin-bottom:28px;
+  opacity:0;animation:fu 0.7s 0.25s forwards;
+}
+.hero-role span{color:var(--gold);}
+
+.hero-desc{
+  font-size:16px;color:var(--tx2);
+  max-width:560px;line-height:1.75;
+  font-weight:300;margin-bottom:36px;
+  opacity:0;animation:fu 0.7s 0.35s forwards;
+}
+.hero-desc strong{color:var(--tx);font-weight:500;}
+
+.hero-actions{
+  display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+  opacity:0;animation:fu 0.7s 0.45s forwards;
+}
+.btn-gold{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--gold);color:#080810;
+  font-family:var(--mono);font-size:12px;font-weight:500;
+  padding:13px 24px;border-radius:7px;text-decoration:none;
+  transition:all 0.2s;border:1px solid var(--gold);
+}
+.btn-gold:hover{background:#d4b558;transform:translateY(-1px);}
+.btn-ghost{
+  display:inline-flex;align-items:center;gap:7px;
+  background:transparent;color:var(--tx2);
+  font-family:var(--mono);font-size:12px;
+  padding:13px 24px;border-radius:7px;text-decoration:none;
+  transition:all 0.2s;border:1px solid var(--b2);
+}
+.btn-ghost:hover{color:var(--tx);border-color:var(--b3);transform:translateY(-1px);}
+
+/* profile strip */
+.profile-strip{
+  display:flex;gap:0;margin-top:64px;
+  border:1px solid var(--b1);border-radius:12px;
+  background:var(--bg2);overflow:hidden;
+  opacity:0;animation:fu 0.7s 0.55s forwards;
+}
+.ps-item{flex:1;padding:20px 24px;border-right:1px solid var(--b1);}
+.ps-item:last-child{border-right:none;}
+.ps-label{font-family:var(--mono);font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;}
+.ps-val{font-family:var(--display);font-size:18px;color:var(--tx);font-weight:700;letter-spacing:-0.3px;line-height:1.2;}
+.ps-val em{color:var(--gold);font-style:normal;}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--b1);}
+
+/* ── SECTION SHARED ── */
+section{padding:92px 0;}
+.stag{font-family:var(--mono);font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.14em;margin-bottom:13px;}
+.stitle{font-family:var(--display);font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;color:var(--tx);margin-bottom:14px;line-height:1.05;}
+.stitle em{color:var(--gold);font-style:italic;}
+.ssub{font-size:15px;color:var(--tx2);font-weight:300;max-width:520px;line-height:1.75;}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:52px;align-items:start;}
+.about-text p{font-size:15px;color:var(--tx2);font-weight:300;line-height:1.8;margin-bottom:16px;}
+.about-text p:last-child{margin-bottom:0;}
+.about-text p strong{color:var(--tx);font-weight:500;}
+
+.skills-list{display:flex;flex-direction:column;gap:10px;}
+.skill-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 16px;background:var(--bg2);
+  border:1px solid var(--b1);border-radius:9px;
+  transition:border-color 0.2s;
+}
+.skill-item:hover{border-color:var(--b2);}
+.skill-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.si-gold{background:var(--gold-d);color:var(--gold);}
+.si-p1{background:var(--p1d);color:var(--p1);}
+.si-p2{background:var(--p2d);color:var(--p2);}
+.si-p3{background:var(--p3d);color:var(--p3);}
+.skill-name{font-size:13px;font-weight:500;color:var(--tx);}
+.skill-detail{font-size:11px;color:var(--tx3);font-family:var(--mono);}
+
+/* ── PROJECTS ── */
+.projects-sec{background:var(--bg2);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);}
+.projects-grid{display:flex;flex-direction:column;gap:20px;margin-top:52px;}
+
+.project-card{
+  background:var(--bg);border:1px solid var(--b1);
+  border-radius:14px;overflow:hidden;
+  display:grid;grid-template-columns:1fr 340px;
+  transition:border-color 0.25s,transform 0.25s;
+}
+.project-card:hover{border-color:var(--b2);transform:translateY(-2px);}
+
+.pc-left{padding:32px 36px;}
+.pc-eyebrow{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:9px;
+  padding:3px 9px;border-radius:8px;
+  letter-spacing:0.06em;text-transform:uppercase;
+  margin-bottom:16px;
+}
+.ey-p1{background:var(--p1d);color:var(--p1);border:1px solid rgba(124,106,247,0.2);}
+.ey-p2{background:var(--p2d);color:var(--p2);border:1px solid rgba(15,212,176,0.2);}
+.ey-p3{background:var(--p3d);color:var(--p3);border:1px solid rgba(91,141,238,0.2);}
+
+.pc-title{
+  font-family:var(--display);font-size:28px;font-weight:700;
+  color:var(--tx);letter-spacing:-0.5px;line-height:1.1;
+  margin-bottom:12px;
+}
+.pc-desc{font-size:14px;color:var(--tx2);font-weight:300;line-height:1.75;margin-bottom:20px;max-width:480px;}
+.pc-desc strong{color:var(--tx);font-weight:500;}
+
+.pc-stats{display:flex;gap:20px;margin-bottom:22px;}
+.pc-stat{}
+.pc-stat-val{font-family:var(--display);font-size:22px;font-weight:700;color:var(--tx);letter-spacing:-0.3px;line-height:1;}
+.pc-stat-val .u{font-size:14px;}
+.pc-stat-label{font-family:var(--mono);font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.08em;margin-top:2px;}
+
+.pc-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
+.pc-pill{font-family:var(--mono);font-size:9px;color:var(--tx3);background:var(--bg3);border:1px solid var(--b1);padding:3px 8px;border-radius:5px;letter-spacing:0.04em;}
+
+.pc-links{display:flex;gap:10px;}
+.pc-link-demo{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11px;font-weight:500;
+  padding:9px 18px;border-radius:7px;text-decoration:none;
+  transition:all 0.2s;
+}
+.lk-p1{background:var(--p1);color:white;border:1px solid var(--p1);}
+.lk-p1:hover{background:#6457e0;}
+.lk-p2{background:var(--p2);color:#080810;border:1px solid var(--p2);}
+.lk-p2:hover{background:#0bbf9e;}
+.lk-p3{background:var(--p3);color:white;border:1px solid var(--p3);}
+.lk-p3:hover{background:#3b6fd4;}
+.pc-link-gh{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:11px;
+  padding:9px 18px;border-radius:7px;text-decoration:none;
+  transition:all 0.2s;background:transparent;
+  color:var(--tx2);border:1px solid var(--b2);
+}
+.pc-link-gh:hover{border-color:var(--b3);color:var(--tx);}
+
+/* right panel — mini mockup */
+.pc-right{
+  border-left:1px solid var(--b1);
+  background:var(--bg2);
+  display:flex;align-items:center;
+  justify-content:center;
+  padding:28px;
+}
+
+.mockup-shell{
+  background:var(--bg3);border:1px solid var(--b2);
+  border-radius:10px;overflow:hidden;width:100%;
+}
+.mock-bar{
+  display:flex;align-items:center;gap:5px;
+  padding:8px 12px;border-bottom:1px solid var(--b1);
+  background:var(--bg4);
+}
+.mk{width:7px;height:7px;border-radius:50%;}
+.mk-r{background:#ef4444;opacity:0.45;}
+.mk-y{background:#f5c842;opacity:0.45;}
+.mk-g{background:#2dd4a0;opacity:0.45;}
+.mock-fname{font-family:var(--mono);font-size:9px;color:var(--tx3);margin-left:4px;}
+.mock-body{padding:14px;}
+
+/* variance mockup */
+.var-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px;}
+.var-kpi{background:var(--bg);border:1px solid var(--b1);border-radius:6px;padding:8px 10px;}
+.vk-l{font-family:var(--mono);font-size:7px;color:var(--tx3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:3px;}
+.vk-v{font-size:14px;font-weight:700;line-height:1;font-family:var(--display);}
+.var-bars{display:flex;flex-direction:column;gap:5px;margin-bottom:10px;}
+.var-bar-row{display:flex;align-items:center;gap:6px;}
+.vbl{font-family:var(--mono);font-size:7px;color:var(--tx3);width:52px;flex-shrink:0;}
+.vbt{flex:1;height:4px;background:var(--b1);border-radius:2px;overflow:hidden;}
+.vbf{height:100%;border-radius:2px;}
+.vbv{font-family:var(--mono);font-size:7px;width:32px;text-align:right;flex-shrink:0;}
+.var-lines{display:flex;flex-direction:column;gap:3px;}
+.var-line{height:4px;background:var(--b1);border-radius:2px;}
+.var-ai-label{font-family:var(--mono);font-size:7px;color:var(--p1);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:5px;display:flex;align-items:center;gap:5px;}
+.var-ai-label::after{content:'';flex:1;height:1px;background:var(--b1);}
+
+/* recon mockup */
+.recon-tabs{display:flex;gap:0;margin-bottom:10px;background:var(--bg4);border-radius:5px;overflow:hidden;border:1px solid var(--b1);}
+.rtab{flex:1;padding:5px 6px;font-family:var(--mono);font-size:7px;color:var(--tx3);text-align:center;}
+.rtab.active{background:var(--bg2);color:var(--p3);}
+.recon-rows{display:flex;flex-direction:column;gap:4px;margin-bottom:10px;}
+.recon-row{display:flex;align-items:center;gap:6px;padding:5px 7px;background:var(--bg);border:1px solid var(--b1);border-radius:5px;}
+.rr-desc{flex:1;font-size:8px;color:var(--tx2);}
+.rr-amt{font-family:var(--mono);font-size:7px;color:var(--tx2);}
+.rr-pill{font-family:var(--mono);font-size:6px;padding:1px 5px;border-radius:4px;}
+.rp-match{background:rgba(45,212,160,0.1);color:#2dd4a0;}
+.rp-exc{background:rgba(245,95,95,0.1);color:#f55f5f;}
+.rp-timing{background:rgba(245,185,66,0.1);color:#f5b942;}
+
+/* close mockup */
+.close-prog{margin-bottom:10px;}
+.close-prog-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:7px;color:var(--tx3);margin-bottom:4px;}
+.close-track{height:4px;background:var(--b1);border-radius:2px;overflow:hidden;}
+.close-fill{height:100%;background:var(--p2);border-radius:2px;}
+.close-tasks{display:flex;flex-direction:column;gap:4px;}
+.ct-row{display:flex;align-items:center;gap:6px;padding:5px 7px;background:var(--bg);border:1px solid var(--b1);border-radius:5px;}
+.ct-check{width:10px;height:10px;border-radius:3px;border:1px solid var(--b2);flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.ct-check.done{background:var(--p2);border-color:var(--p2);}
+.ct-name{flex:1;font-size:8px;color:var(--tx2);}
+.ct-name.done{text-decoration:line-through;color:var(--tx3);}
+.ct-tag{font-family:var(--mono);font-size:6px;padding:1px 4px;border-radius:3px;}
+.ct-gl{background:var(--p3d);color:var(--p3);}
+.ct-ap{background:rgba(245,185,66,0.08);color:#f5b942;}
+.ct-ai{background:var(--p1d);color:var(--p1);}
+
+/* ── STACK SECTION ── */
+.stack-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:52px;}
+.stack-card{
+  background:var(--bg2);border:1px solid var(--b1);
+  border-radius:10px;padding:18px;
+  transition:border-color 0.2s;
+}
+.stack-card:hover{border-color:var(--b2);}
+.sc-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;font-size:13px;}
+.sc-name{font-size:13px;font-weight:600;color:var(--tx);margin-bottom:4px;letter-spacing:-0.2px;}
+.sc-detail{font-size:11px;color:var(--tx3);font-weight:300;line-height:1.5;font-family:var(--mono);}
+
+/* ── CTA ── */
+.cta-sec{text-align:center;padding:92px 0;position:relative;}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(232,201,109,0.06) 0%,transparent 70%);pointer-events:none;}
+.cta-name{font-family:var(--display);font-size:clamp(32px,5vw,58px);font-weight:800;letter-spacing:-1.5px;color:var(--tx);margin-bottom:12px;line-height:1.05;}
+.cta-name em{color:var(--gold);font-style:italic;}
+.cta-sub{font-size:15px;color:var(--tx2);font-weight:300;margin-bottom:32px;}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--b1);padding:28px 0;}
+.fi{max-width:1080px;margin:0 auto;padding:0 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;}
+.fl{font-family:var(--mono);font-size:10px;color:var(--tx3);}
+.fr{display:flex;gap:18px;}
+.fr a{font-family:var(--mono);font-size:10px;color:var(--tx3);text-decoration:none;transition:color 0.2s;}
+.fr a:hover{color:var(--tx2);}
+
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.65s ease,transform 0.65s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:0.05s;}
+.reveal-d2{transition-delay:0.12s;}
+.reveal-d3{transition-delay:0.19s;}
+
+@media(max-width:900px){
+  .project-card{grid-template-columns:1fr;}
+  .pc-right{display:none;}
+  .about-grid{grid-template-columns:1fr;}
+  .stack-grid{grid-template-columns:repeat(2,1fr);}
+  .profile-strip{flex-direction:column;}
+  .ps-item{border-right:none;border-bottom:1px solid var(--b1);}
+  .ps-item:last-child{border-bottom:none;}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="glow-tl"></div>
+<div class="glow-br"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-name">John <em>Perez</em></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="https://github.com/johnperezlondon-star" target="_blank" class="nav-contact">GitHub →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-tag"><div class="tag-dot"></div>Finance AI · London, UK</div>
+    <div class="hero-name">John Perez</div>
+    <div class="hero-role">Finance Professional <span>&</span> AI Automation Builder</div>
+    <p class="hero-desc">
+      6+ years in accounting operations, financial reporting and month-end close. <strong>ACCA part-qualified.</strong> Building AI-powered tools that automate the most time-consuming tasks in finance — variance analysis, reconciliations, and close workflows.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-gold">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="7" y="1" width="5" height="5" rx="1"/><rect x="1" y="7" width="5" height="5" rx="1"/><rect x="7" y="7" width="5" height="5" rx="1"/></svg>
+        View portfolio
+      </a>
+      <a href="https://github.com/johnperezlondon-star" target="_blank" class="btn-ghost">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="currentColor"><path d="M6.5 0C2.9 0 0 2.9 0 6.5c0 2.9 1.9 5.3 4.5 6.2.3.1.4-.1.4-.3v-1.1C3 11.8 2.7 10.8 2.7 10.8c-.3-.8-.7-1-.7-1-.6-.4 0-.4 0-.4.7.1 1 .7 1 .7.6 1 1.5.7 1.9.5.1-.4.2-.7.4-.9C3.9 9.5 2.5 9 2.5 6.4c0-.7.3-1.3.7-1.8-.1-.2-.3-.8.1-1.7 0 0 .6-.2 1.8.7A6.3 6.3 0 016.5 3.3c.6 0 1.1.1 1.6.2 1.3-.8 1.8-.7 1.8-.7.4.9.1 1.6.1 1.7.4.5.7 1 .7 1.8 0 2.6-1.5 3.1-2.8 3.2.2.2.4.6.4 1.1v1.7c0 .2.1.4.4.3C11.1 11.8 13 9.4 13 6.5 13 2.9 10.1 0 6.5 0z"/></svg>
+        GitHub profile
+      </a>
+    </div>
+
+    <div class="profile-strip">
+      <div class="ps-item">
+        <div class="ps-label">Experience</div>
+        <div class="ps-val">6<em>+</em> years</div>
+      </div>
+      <div class="ps-item">
+        <div class="ps-label">Qualification</div>
+        <div class="ps-val">ACCA part-qualified</div>
+      </div>
+      <div class="ps-item">
+        <div class="ps-label">Portfolio projects</div>
+        <div class="ps-val">3 <em>live</em></div>
+      </div>
+      <div class="ps-item">
+        <div class="ps-label">AI model used</div>
+        <div class="ps-val">GPT<em>-4o</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="stag">About</div>
+      <h2 class="stitle">Finance meets <em>automation</em></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text reveal reveal-d1">
+        <p>Finance professional with <strong>over 6 years of experience</strong> across accounting operations, financial reporting and month-end close within international, multi-currency environments. ACCA part-qualified with strong ERP experience across Sage X3, SAP, and Navision.</p>
+        <p>Applies <strong>AI and Python-based automation</strong> to finance workflows — including variance analysis, reconciliation, and month-end close — with hands-on experience integrating GPT-4o into financial reporting processes.</p>
+        <p>Currently building a Finance AI portfolio of tools that automate the most time-consuming parts of the finance function. Open to roles in <strong>Management Accounting, Financial Reporting, and Finance Transformation.</strong></p>
+      </div>
+      <div class="skills-list reveal reveal-d2">
+        <div class="skill-item">
+          <div class="skill-icon si-gold"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6.5 1l1.5 3.5 3.5.5-2.5 2.5.5 3.5-3-1.5-3 1.5.5-3.5L2.5 5l3.5-.5z"/></svg></div>
+          <div><div class="skill-name">Financial accounting</div><div class="skill-detail">Recon · Month-end · Reporting · IFRS</div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon si-p1"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><polyline points="1,9 4,5 7,7 10,3 13,6"/></svg></div>
+          <div><div class="skill-name">Management accounting</div><div class="skill-detail">Budgeting · Variance · FP&A · KPIs</div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon si-p2"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="5" height="5" rx="1"/><rect x="7" y="1" width="5" height="5" rx="1"/><rect x="1" y="7" width="5" height="5" rx="1"/><path d="M7 9.5h5M9.5 7v5"/></svg></div>
+          <div><div class="skill-name">AI & automation</div><div class="skill-detail">Python · GPT-4o · Streamlit · Pandas</div></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-icon si-p3"><svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="2" width="11" height="9" rx="1"/><path d="M4 5h5M4 8h3"/></svg></div>
+          <div><div class="skill-name">ERP systems</div><div class="skill-detail">Sage X3 · SAP · Navision · Excel</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects-sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="stag">Portfolio — Tier 1 projects</div>
+      <h2 class="stitle">Three tools. <em>Real problems.</em></h2>
+      <p class="ssub">Each project targets a specific manual task that finance teams spend hours on every month — and automates it end-to-end.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- PROJECT 1: VARIANCE ANALYSER -->
+      <div class="project-card reveal reveal-d1">
+        <div class="pc-left">
+          <div class="pc-eyebrow ey-p1">Project 01 · Variance analysis</div>
+          <div class="pc-title">AI Variance Analyser</div>
+          <p class="pc-desc">Eliminates <strong>2–4 hours of manual variance commentary</strong> per reporting cycle. Upload budget and actuals CSVs — get a flagged variance table and GPT-4o board-pack narrative in under 30 seconds.</p>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-val">2–4<span class="u" style="color:var(--p1)">hrs</span></div><div class="pc-stat-label">Saved / cycle</div></div>
+            <div class="pc-stat"><div class="pc-stat-val">&lt;30<span class="u" style="color:var(--p1)">s</span></div><div class="pc-stat-label">To full output</div></div>
+            <div class="pc-stat"><div class="pc-stat-val" style="font-size:16px">3<span class="u" style="color:var(--p1)">×</span></div><div class="pc-stat-label">Output formats</div></div>
+          </div>
+          <div class="pc-pills">
+            <span class="pc-pill">Python</span><span class="pc-pill">GPT-4o</span><span class="pc-pill">Pandas</span><span class="pc-pill">Streamlit</span><span class="pc-pill">OpenAI API</span><span class="pc-pill">Excel/openpyxl</span>
+          </div>
+          <div class="pc-links">
+            <a href="https://johnperezlondon-star.github.io/variance-analyser/" target="_blank" class="pc-link-demo lk-p1">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="2,1 10,5.5 2,10"/></svg>
+              Live demo
+            </a>
+            <a href="https://github.com/johnperezlondon-star/variance-analyser" target="_blank" class="pc-link-gh">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="currentColor"><path d="M5.5 0C2.5 0 0 2.5 0 5.5c0 2.4 1.6 4.5 3.8 5.2.3.1.4-.1.4-.3v-.9C2.7 9.9 2.4 9 2.4 9c-.3-.7-.6-.8-.6-.8-.5-.3 0-.3 0-.3.6.1.9.6.9.6.5.9 1.3.6 1.6.5.1-.4.2-.6.3-.8-1.2-.1-2.4-.6-2.4-2.6 0-.6.2-1.1.6-1.5-.1-.2-.3-.7.1-1.5 0 0 .5-.1 1.6.6.5-.1.9-.2 1.4-.2s.9.1 1.4.2c1.1-.7 1.6-.6 1.6-.6.4.8.1 1.3.1 1.5.3.4.5.9.5 1.5 0 2.1-1.3 2.5-2.5 2.6.2.2.4.5.4 1v1.5c0 .2.1.3.4.3C9.4 10 11 7.9 11 5.5 11 2.5 8.5 0 5.5 0z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="pc-right">
+          <div class="mockup-shell">
+            <div class="mock-bar"><div class="mk mk-r"></div><div class="mk mk-y"></div><div class="mk mk-g"></div><div class="mock-fname">variance_report.xlsx</div></div>
+            <div class="mock-body">
+              <div class="var-kpis">
+                <div class="var-kpi"><div class="vk-l">Budget YTD</div><div class="vk-v" style="color:var(--tx);font-size:13px">£1.42m</div></div>
+                <div class="var-kpi"><div class="vk-l">Variance</div><div class="vk-v" style="color:#2dd4a0">+4.8%</div></div>
+                <div class="var-kpi"><div class="vk-l">Exceptions</div><div class="vk-v" style="color:#f5c842">5</div></div>
+              </div>
+              <div class="var-bars">
+                <div class="var-bar-row"><div class="vbl">Sales Rev</div><div class="vbt"><div class="vbf" style="width:90%;background:#2dd4a0"></div></div><div class="vbv" style="color:#2dd4a0">+7.9%</div></div>
+                <div class="var-bar-row"><div class="vbl">Salaries</div><div class="vbt"><div class="vbf" style="width:85%;background:#2dd4a0"></div></div><div class="vbv" style="color:#2dd4a0">+8.0%</div></div>
+                <div class="var-bar-row"><div class="vbl">Marketing</div><div class="vbt"><div class="vbf" style="width:65%;background:#f56565"></div></div><div class="vbv" style="color:#f56565">−23.8%</div></div>
+                <div class="var-bar-row"><div class="vbl">Operations</div><div class="vbt"><div class="vbf" style="width:40%;background:#f5c842"></div></div><div class="vbv" style="color:#f5c842">−6.0%</div></div>
+              </div>
+              <div class="var-ai-label">GPT-4o narrative</div>
+              <div class="var-lines">
+                <div class="var-line" style="width:100%"></div>
+                <div class="var-line" style="width:94%"></div>
+                <div class="var-line" style="width:100%"></div>
+                <div class="var-line" style="width:78%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: RECONCILIATION -->
+      <div class="project-card reveal reveal-d2">
+        <div class="pc-left">
+          <div class="pc-eyebrow ey-p2">Project 02 · Reconciliation</div>
+          <div class="pc-title">AI Reconciliation Tool</div>
+          <p class="pc-desc">Automates <strong>bank, intercompany and AP reconciliations</strong> in one platform. Fuzzy matching identifies near-matches, duplicate payments are flagged, and GPT-4o writes the audit sign-off narrative.</p>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-val" style="font-size:16px">3<span class="u" style="color:var(--p2)">×</span></div><div class="pc-stat-label">Recon types</div></div>
+            <div class="pc-stat"><div class="pc-stat-val">94<span class="u" style="color:var(--p2)">%</span></div><div class="pc-stat-label">Match rate</div></div>
+            <div class="pc-stat"><div class="pc-stat-val">&lt;2<span class="u" style="color:var(--p2)">min</span></div><div class="pc-stat-label">Full run time</div></div>
+          </div>
+          <div class="pc-pills">
+            <span class="pc-pill">Python</span><span class="pc-pill">GPT-4o</span><span class="pc-pill">Fuzzy matching</span><span class="pc-pill">Pandas</span><span class="pc-pill">Streamlit</span><span class="pc-pill">IFRS 10</span>
+          </div>
+          <div class="pc-links">
+            <a href="https://johnperezlondon-star.github.io/recon-ai/" target="_blank" class="pc-link-demo lk-p2">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="2,1 10,5.5 2,10"/></svg>
+              Live demo
+            </a>
+            <a href="https://github.com/johnperezlondon-star/recon-ai" target="_blank" class="pc-link-gh">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="currentColor"><path d="M5.5 0C2.5 0 0 2.5 0 5.5c0 2.4 1.6 4.5 3.8 5.2.3.1.4-.1.4-.3v-.9C2.7 9.9 2.4 9 2.4 9c-.3-.7-.6-.8-.6-.8-.5-.3 0-.3 0-.3.6.1.9.6.9.6.5.9 1.3.6 1.6.5.1-.4.2-.6.3-.8-1.2-.1-2.4-.6-2.4-2.6 0-.6.2-1.1.6-1.5-.1-.2-.3-.7.1-1.5 0 0 .5-.1 1.6.6.5-.1.9-.2 1.4-.2s.9.1 1.4.2c1.1-.7 1.6-.6 1.6-.6.4.8.1 1.3.1 1.5.3.4.5.9.5 1.5 0 2.1-1.3 2.5-2.5 2.6.2.2.4.5.4 1v1.5c0 .2.1.3.4.3C9.4 10 11 7.9 11 5.5 11 2.5 8.5 0 5.5 0z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="pc-right">
+          <div class="mockup-shell">
+            <div class="mock-bar"><div class="mk mk-r"></div><div class="mk mk-y"></div><div class="mk mk-g"></div><div class="mock-fname">bank_reconciliation.xlsx</div></div>
+            <div class="mock-body">
+              <div class="recon-tabs">
+                <div class="rtab active">Matched</div>
+                <div class="rtab">Exceptions</div>
+                <div class="rtab">Timing</div>
+                <div class="rtab">AI summary</div>
+              </div>
+              <div class="recon-rows">
+                <div class="recon-row"><div class="rr-desc">BACS — Payroll June</div><div class="rr-amt">£287,450</div><div class="rr-pill rp-match">✓ Matched</div></div>
+                <div class="recon-row"><div class="rr-desc">CHAPS — Rent Q2</div><div class="rr-amt">£45,000</div><div class="rr-pill rp-match">✓ Exact</div></div>
+                <div class="recon-row"><div class="rr-desc">Unknown BACS credit</div><div class="rr-amt">£14,200</div><div class="rr-pill rp-exc">✗ Exception</div></div>
+                <div class="recon-row"><div class="rr-desc">DD — AWS Services</div><div class="rr-amt">£8,420</div><div class="rr-pill rp-match">✓ Fuzzy</div></div>
+                <div class="recon-row"><div class="rr-desc">End of month BACS</div><div class="rr-amt">£8,400</div><div class="rr-pill rp-timing">⏱ Timing</div></div>
+              </div>
+              <div class="var-ai-label">94.2% match rate · 8 exceptions</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: CLOSE TOOL -->
+      <div class="project-card reveal reveal-d3">
+        <div class="pc-left">
+          <div class="pc-eyebrow ey-p3">Project 03 · Workflow automation</div>
+          <div class="pc-title">CloseAI — Month-End Close</div>
+          <p class="pc-desc">A <strong>smart workflow platform</strong> that tracks 35+ close tasks across 5 workstreams, surfaces blockers in real time, and uses GPT-4o to generate the CFO briefing, journal entries, and variance commentary automatically.</p>
+          <div class="pc-stats">
+            <div class="pc-stat"><div class="pc-stat-val">35<span class="u" style="color:var(--p3)">+</span></div><div class="pc-stat-label">Tasks tracked</div></div>
+            <div class="pc-stat"><div class="pc-stat-val" style="font-size:16px">5<span class="u" style="color:var(--p3)"> day</span></div><div class="pc-stat-label">Close target</div></div>
+            <div class="pc-stat"><div class="pc-stat-val" style="font-size:16px">4<span class="u" style="color:var(--p3)">×</span></div><div class="pc-stat-label">AI outputs</div></div>
+          </div>
+          <div class="pc-pills">
+            <span class="pc-pill">Python</span><span class="pc-pill">GPT-4o</span><span class="pc-pill">Streamlit</span><span class="pc-pill">Pandas</span><span class="pc-pill">Workflow automation</span><span class="pc-pill">IFRS 15</span>
+          </div>
+          <div class="pc-links">
+            <a href="https://johnperezlondon-star.github.io/month-end-close/" target="_blank" class="pc-link-demo lk-p3">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="2,1 10,5.5 2,10"/></svg>
+              Live demo
+            </a>
+            <a href="https://github.com/johnperezlondon-star/month-end-close" target="_blank" class="pc-link-gh">
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="currentColor"><path d="M5.5 0C2.5 0 0 2.5 0 5.5c0 2.4 1.6 4.5 3.8 5.2.3.1.4-.1.4-.3v-.9C2.7 9.9 2.4 9 2.4 9c-.3-.7-.6-.8-.6-.8-.5-.3 0-.3 0-.3.6.1.9.6.9.6.5.9 1.3.6 1.6.5.1-.4.2-.6.3-.8-1.2-.1-2.4-.6-2.4-2.6 0-.6.2-1.1.6-1.5-.1-.2-.3-.7.1-1.5 0 0 .5-.1 1.6.6.5-.1.9-.2 1.4-.2s.9.1 1.4.2c1.1-.7 1.6-.6 1.6-.6.4.8.1 1.3.1 1.5.3.4.5.9.5 1.5 0 2.1-1.3 2.5-2.5 2.6.2.2.4.5.4 1v1.5c0 .2.1.3.4.3C9.4 10 11 7.9 11 5.5 11 2.5 8.5 0 5.5 0z"/></svg>
+              GitHub
+            </a>
+          </div>
+        </div>
+        <div class="pc-right">
+          <div class="mockup-shell">
+            <div class="mock-bar"><div class="mk mk-r"></div><div class="mk mk-y"></div><div class="mk mk-g"></div><div class="mock-fname">close_tracker — June 2024</div></div>
+            <div class="mock-body">
+              <div class="close-prog">
+                <div class="close-prog-label"><span>Close progress</span><span style="color:var(--p2)">68%</span></div>
+                <div class="close-track"><div class="close-fill" style="width:68%"></div></div>
+              </div>
+              <div class="close-tasks">
+                <div class="ct-row"><div class="ct-check done"><svg width="7" height="7" viewBox="0 0 7 7" fill="none" stroke="white" stroke-width="1.5"><polyline points="1,3.5 2.8,5.5 6,1.5"/></svg></div><div class="ct-name done">Payroll journals posted</div><div class="ct-tag ct-gl">GL</div></div>
+                <div class="ct-row"><div class="ct-check done"><svg width="7" height="7" viewBox="0 0 7 7" fill="none" stroke="white" stroke-width="1.5"><polyline points="1,3.5 2.8,5.5 6,1.5"/></svg></div><div class="ct-name done">Bank reconciliation</div><div class="ct-tag ct-gl">GL</div></div>
+                <div class="ct-row"><div class="ct-check"></div><div class="ct-name">AP accruals approval</div><div class="ct-tag ct-ap">AP</div></div>
+                <div class="ct-row"><div class="ct-check"></div><div class="ct-name">Interco reconciliation</div><div class="ct-tag ct-gl">IC</div></div>
+                <div class="ct-row"><div class="ct-check"></div><div class="ct-name">CFO briefing note</div><div class="ct-tag ct-ai">AI</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STACK -->
+<section id="stack">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="stag">Technical stack</div>
+      <h2 class="stitle">Tools & <em>technologies</em></h2>
+      <p class="ssub">Every tool chosen for a specific reason — not to build impressive-looking code, but to solve real finance problems faster.</p>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-card reveal reveal-d1">
+        <div class="sc-icon" style="background:rgba(55,118,171,0.1);color:#3776ab"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 1C3.7 1 1 3.7 1 7s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"/><path d="M4 7h6M7 4v6"/></svg></div>
+        <div class="sc-name">Python + Pandas</div>
+        <div class="sc-detail">data pipelines · fuzzy matching · reconciliation logic · variance calc</div>
+      </div>
+      <div class="stack-card reveal reveal-d2">
+        <div class="sc-icon" style="background:rgba(65,41,145,0.12);color:#412991"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M7 1l1.8 4H13l-3.5 2.8 1.2 4.2L7 9.5l-3.7 2.5 1.2-4.2L1 5h4.2z"/></svg></div>
+        <div class="sc-name">OpenAI GPT-4o</div>
+        <div class="sc-detail">narrative generation · journal drafts · exception actions · CFO briefings</div>
+      </div>
+      <div class="stack-card reveal reveal-d1">
+        <div class="sc-icon" style="background:rgba(255,75,75,0.1);color:#ff4b4b"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="12" height="12" rx="2"/><path d="M4 7h6M7 4v6"/></svg></div>
+        <div class="sc-name">Streamlit</div>
+        <div class="sc-detail">web UI · file upload · multi-page apps · live dashboards</div>
+      </div>
+      <div class="stack-card reveal reveal-d2">
+        <div class="sc-icon" style="background:rgba(33,115,70,0.1);color:#217346"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="1" y="1" width="12" height="12" rx="1"/><path d="M1 5h12M5 1v12"/></svg></div>
+        <div class="sc-name">Excel / openpyxl</div>
+        <div class="sc-detail">formatted workbooks · conditional formatting · audit reports</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="cta-name">Let's work <em>together</em></div>
+      <p class="cta-sub">Open to roles in Management Accounting, Financial Reporting, and Finance Transformation.</p>
+      <div class="cta-actions">
+        <a href="https://www.linkedin.com/in/johnperezlondon" target="_blank" class="btn-gold">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="currentColor"><path d="M2.5 1C1.7 1 1 1.7 1 2.5S1.7 4 2.5 4 4 3.3 4 2.5 3.3 1 2.5 1zM1 5h3v7H1V5zm4.5 0H9v1c.4-.7 1.3-1.2 2.2-1.2C13 4.8 13 6.5 13 8v4h-3V8.5c0-.9-.3-1.5-1.1-1.5-.6 0-1 .4-1.2.8-.1.2-.1.4-.1.6V12H5.5V5z"/></svg>
+          Connect on LinkedIn
+        </a>
+        <a href="https://github.com/johnperezlondon-star" target="_blank" class="btn-ghost">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="currentColor"><path d="M6.5 0C2.9 0 0 2.9 0 6.5c0 2.9 1.9 5.3 4.5 6.2.3.1.4-.1.4-.3v-1.1C3 11.8 2.7 10.8 2.7 10.8c-.3-.8-.7-1-.7-1-.6-.4 0-.4 0-.4.7.1 1 .7 1 .7.6 1 1.5.7 1.9.5.1-.4.2-.7.4-.9C3.9 9.5 2.5 9 2.5 6.4c0-.7.3-1.3.7-1.8-.1-.2-.3-.8.1-1.7 0 0 .6-.2 1.8.7A6.3 6.3 0 016.5 3.3c.6 0 1.1.1 1.6.2 1.3-.8 1.8-.7 1.8-.7.4.9.1 1.6.1 1.7.4.5.7 1 .7 1.8 0 2.6-1.5 3.1-2.8 3.2.2.2.4.6.4 1.1v1.7c0 .2.1.4.4.3C11.1 11.8 13 9.4 13 6.5 13 2.9 10.1 0 6.5 0z"/></svg>
+          View GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fi">
+    <div class="fl">John Perez · Finance AI Portfolio · London · 2024</div>
+    <div class="fr">
+      <a href="https://github.com/johnperezlondon-star" target="_blank">GitHub</a>
+      <a href="https://johnperezlondon-star.github.io/variance-analyser/" target="_blank">Variance analyser</a>
+      <a href="https://johnperezlondon-star.github.io/recon-ai/" target="_blank">Recon tool</a>
+      <a href="https://johnperezlondon-star.github.io/month-end-close/" target="_blank">CloseAI</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
